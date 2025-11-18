@@ -1,0 +1,5 @@
+pylsl
+requests
+paho-mqtt
+# RPi.GPIO       # Only used on Raspberry Pi (safe to install elsewhere)
+pytest
