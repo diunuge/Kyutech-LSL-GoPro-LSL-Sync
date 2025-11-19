@@ -1,3 +1,10 @@
+"""
+Testing script for MQTT command.
+
+use this command in the main folder
+python -m src.scripts.send_mqtt_command
+
+"""
 from src.mqtt_commander.commander import send_command
 
 # python -m src.scripts.send_mqtt_command

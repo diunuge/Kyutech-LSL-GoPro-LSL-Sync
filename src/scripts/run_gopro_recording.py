@@ -31,7 +31,7 @@ def main():
         "--marker_stop",
         type=str,
         default=MARKER_STOP,
-        help=f"Marker to send at start (default: {MARKER_STOP})"
+        help=f"Marker to send at stop (default: {MARKER_STOP})"
     )
 
     args = parser.parse_args()

@@ -3,6 +3,8 @@ Define actions that the Raspberry Pi can perform when receiving MQTT commands.
 This can include GPIO control, camera triggers, LEDs, motors, etc.
 """
 
+from src.gopro_lsl.recorder import start_record_session, stop_record_session
+
 def execute_action(command: dict):
     """
     Execute a command received from MQTT.
@@ -29,11 +31,11 @@ def execute_action(command: dict):
 
     elif cmd_type == "camera_start":
         print("[Device Actions] Camera Started")
-        # TODO: start camera
+        start_record_session()
 
     elif cmd_type == "camera_stop":
         print("[Device Actions] Camera Stopped")
-        # TODO: stop camera
+        stop_record_session()
 
     else:
         print(f"[Device Actions] Unknown command: {command}")
