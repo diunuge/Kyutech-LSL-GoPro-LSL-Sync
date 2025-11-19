@@ -25,4 +25,4 @@ def record_session(duration_sec: int, marker_start: str = "START", marker_stop: 
     stop_recording()
     send_marker("END")
     print("Recording session completed")
-    send_marker(marker_end)   # Push end marker
+    send_marker(marker_stop)   # Push end marker
