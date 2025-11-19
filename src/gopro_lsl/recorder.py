@@ -4,8 +4,8 @@ Handles starting/stopping GoPro recordings and sending LSL markers.
 """
 
 import time
-from .gopro_control import start_recording, stop_recording
-from .lsl_marker_stream import MarkerSender
+from src.gopro_lsl.gopro_control import start_recording, stop_recording
+from src.gopro_lsl.lsl_marker_stream import MarkerSender
 
 # Global marker sender instance
 marker_sender = MarkerSender()
