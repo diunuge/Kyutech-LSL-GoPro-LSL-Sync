@@ -6,6 +6,7 @@ Handles starting/stopping GoPro recordings and sending LSL markers.
 import time
 from src.gopro_lsl.gopro_control import start_recording, stop_recording
 from src.gopro_lsl.lsl_marker_stream import MarkerSender
+from src.gopro_lsl.config import MARKER_START, MARKER_STOP
 
 # Global marker sender instance
 marker_sender = MarkerSender()
@@ -21,11 +22,14 @@ def start_record_session():
 
     print("[Recorder] Starting GoPro + LSL session...")
 
-    marker_sender.send_marker("START") # Send START marker
-    start_recording() # Start GoPro recording
-    marker_sender.start_heartbeat() # Start LSL heartbeat in background
-
-    recording_active = True
+    
+    status = start_recording() # Start GoPro recording
+    if status:
+        marker_sender.send_marker(MARKER_START) # Send START marker
+        marker_sender.start_heartbeat() # Start LSL heartbeat in background
+        recording_active = True
+    else:
+        return
 
 
 def stop_record_session():
@@ -37,7 +41,7 @@ def stop_record_session():
 
     print("[Recorder] Stopping GoPro + LSL session...")
     
-    marker_sender.send_marker("STOP") # Push STOP marker
+    marker_sender.send_marker(MARKER_STOP) # Push STOP marker
     stop_recording() # Stop GoPro recording
     marker_sender.stop_heartbeat() # Push LSL heartbeat
 
