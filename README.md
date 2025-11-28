@@ -40,3 +40,53 @@ This system is designed for experiments, and multi-device synchronization setups
 ---
 
 ## 📦 Repository Structure Overview
+
+/
+│
+├── src/
+│ ├── gopro_lsl/
+│ │ ├── init.py
+│ │ ├── gopro_control.py
+│ │ ├── lsl_marker_stream.py
+│ │ ├── recorder.py
+│ │ └── config.py
+│ │
+│ ├── mqtt_commander/
+│ │ ├── init.py
+│ │ ├── mqtt_publisher.py
+│ │ ├── commander.py
+│ │ ├── command_protocol.py
+│ │ └── config.py
+│ │
+│ ├── rpi_agent/
+│ │ ├── init.py
+│ │ ├── mqtt_agent.py
+│ │ ├── device_actions.py
+│ │ ├── heartbeat.py
+│ │ └── config.py
+│ │
+│ └── scripts/
+│ ├── run_gopro_recording.py
+│ ├── send_mqtt_command.py
+│ ├── start_agent_with_heartbeat.py
+│ ├── start_rpi_agent.py
+│ ├── test_mqtt_connection.py
+│ └── orchestrate_multi_device.py
+│
+├── examples/
+├── tests/
+├── docs/
+├── assets/
+├── README.md
+└── requirements.txt
+
+
+---
+
+## Installation
+
+1. Install Python 3.10+ on your PC and Raspberry Pi devices.  
+2. Install required Python packages:
+
+```bash
+pip install -r requirements.txt

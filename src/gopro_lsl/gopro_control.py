@@ -7,6 +7,7 @@ import requests
 import time
 from datetime import datetime
 from src.gopro_lsl.config import GOPRO_IP, DEFAULT_TIMEOUT, DEFAULT_POLL_INTERVAL
+from src.log.logger import logger
 
 def log(msg):
     print(f"[{datetime.now().strftime("%H:%M:%S.%f")[:-3]}] {msg}")
@@ -24,26 +25,31 @@ def start_recording(timeout=DEFAULT_TIMEOUT, poll_interval=DEFAULT_POLL_INTERVAL
         url = f"http://{GOPRO_IP}/gp/gpControl/command/shutter?p=1"
         response = requests.get(url, timeout=2)
         # log("Start command sent")
+        logger.log("Start command sent")
         if response.status_code != 200:
             print("Failed to send start command")
+            logger.log("Failed to send start command")
             return False
 
         # log("Waiting for camera to begin recording...")
-
+        logger.log("Waiting for camera to begin recording...")
         # Wait for encoder state to turn ON
         deadline = time.time() + timeout
 
         while time.time() < deadline:
             if is_recording():
                 # log("GoPro recording confirmed.")
+                logger.log("GoPro recording confirmed.")
                 return True
             time.sleep(poll_interval)
 
         print("Timeout: GoPro did not start recording.")
+        logger.log("Timeout: GoPro did not start recording.")
         return False
 
     except Exception as e:
         print(f"Error starting GoPro recording: {e}")
+        logger.log(f"Error starting GoPro recording: {e}")
         return False
     
 def stop_recording(timeout=DEFAULT_TIMEOUT, poll_interval=DEFAULT_POLL_INTERVAL):
@@ -53,26 +59,32 @@ def stop_recording(timeout=DEFAULT_TIMEOUT, poll_interval=DEFAULT_POLL_INTERVAL)
         url = f"http://{GOPRO_IP}/gp/gpControl/command/shutter?p=0"
         response = requests.get(url, timeout=2)
         # log("Stop command sent")
-        if response.status_code == 200:
+        logger.log("Timeout: GoPro did not start recording.")
+        if response.status_code != 200:
             print("GoPro recording stopped")
+            logger.log("GoPro recording stopped")
             return False
         
         # log("Waiting for camera to stop recording...")
+        logger.log("Waiting for camera to stop recording...")
 
         # Wait for encoder state to turn OFF
         deadline = time.time() + timeout
 
         while time.time() < deadline:
             if is_recording() is False:
-                # log("GoPro recording confirmed.")
+                # log("GoPro recording stop confirmed.")
+                logger.log("GoPro recording stop confirmed.")
                 return True
             time.sleep(poll_interval)
 
         print("Timeout: GoPro did not stop recording.")
+        logger.log("Timeout: GoPro did not stop recording.")
         return False
 
     except Exception as e:
         print(f"Error stopping GoPro recording: {e}")
+        logger.log(f"Error stopping GoPro recording: {e}")
         return False
 
 def get_status():

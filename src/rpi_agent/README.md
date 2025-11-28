@@ -8,7 +8,8 @@ This folder contains the Raspberry Pi agent that subscribes to MQTT commands fro
 ## connect to GO Pro wifi
 
 - Enable camera WiFi
-`sudo nmcli device wifi connect "HERO 11 Black Mini 1" password "zqk-FQK-Xnt"`
+- Connect to WiFi
+`sudo nmcli device wifi connect "<SSID>" password "<password>"`
 
 ## configure MQTT
 
