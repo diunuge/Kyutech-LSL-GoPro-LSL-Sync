@@ -8,34 +8,38 @@ This folder contains the Raspberry Pi agent that subscribes to MQTT commands fro
 ## connect to GO Pro wifi
 
 - Enable camera WiFi
-- sudo nmcli device wifi connect "HERO 11 Black Mini 1" password "zqk-FQK-Xnt"
+`sudo nmcli device wifi connect "HERO 11 Black Mini 1" password "zqk-FQK-Xnt"`
 
 ## configure MQTT
 
+```bash
 sudo apt update
 sudo apt install mosquitto mosquitto-clients
 sudo systemctl enable mosquitto
 sudo systemctl start mosquitto
 systemctl status mosquitto
+```
 
 ## clone github project
-- git clone https://github.com/diunuge/Kyutech-LSL-GoPro-LSL-Sync.git
+`git clone https://github.com/diunuge/Kyutech-LSL-GoPro-LSL-Sync.git`
 
 ## configure python environment
 
 - Execute commands from project folder
-cd Kyutech-LSL-GoPro-LSL-Sync
-sudo apt install python3-venv
+`cd Kyutech-LSL-GoPro-LSL-Sync`
+`sudo apt install python3-venv`
 
 - create virtual environment 
-python3 -m venv venv
+`python3 -m venv venv`
 - activate virtual environment
-source venv/bin/activate
+`source venv/bin/activate`
 
 - install requirements
+```bash
 pip install pylsl
 pip install requests
 pip install paho-mqtt
+```
 
 - download liblsll https://github.com/sccn/liblsl/releases/download/v1.16.2/liblsl-1.16.2-bookworm_arm64.deb
 - Extract it
@@ -43,10 +47,9 @@ pip install paho-mqtt
 lib/liblsl.so LSL/Program/venv/lib/python3.13/site-packages/pylsl/lib/
 - set MQTT broker ip address, device id, ...etc in config.py
 - run start_agent_with_heartbeat.py script from main folder
-python -m src.scripts.start_agent_with_heartbeat
+`python -m src.scripts.start_agent_with_heartbeat`
 
 ## deactivate when done
-deavtivate
-
+`deavtivate`
 
 ## Folder Structure
