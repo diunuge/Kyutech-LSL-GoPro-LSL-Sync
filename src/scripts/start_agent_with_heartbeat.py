@@ -1,15 +1,17 @@
-# src/rpi_agent/start_agent_with_heartbeat.py
 """
 Launcher script for Raspberry Pi agent.
 Starts both the MQTT command listener and the heartbeat thread.
 """
 
-import threading
-import time
+import atexit
 from src.rpi_agent.mqtt_agent import run_agent
 from src.rpi_agent.heartbeat import Heartbeat
+from src.log.logger import logger
 
 def main():
+
+    atexit.register(logger.close)
+
     # Start the heartbeat thread
     hb = Heartbeat()
     hb.start()
