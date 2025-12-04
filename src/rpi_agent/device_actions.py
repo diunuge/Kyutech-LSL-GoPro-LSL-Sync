@@ -21,6 +21,14 @@ def execute_action(command: dict):
         print(f"[Device Actions] GPIO write: pin={pin}, value={value}")
         # TODO: implement actual GPIO control using RPi.GPIO or gpiozero
 
+    elif cmd_type == "all_start":
+        start_record_session()
+        # TODO: implement all devices start
+
+    elif cmd_type == "all_stop":
+        stop_record_session()
+        # TODO: implement all devices stop
+
     elif cmd_type == "led_on":
         print("[Device Actions] LED ON")
         # TODO: implement LED on

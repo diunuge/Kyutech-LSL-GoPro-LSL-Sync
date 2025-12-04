@@ -10,5 +10,5 @@ from src.mqtt_commander.commander import broadcast_command
 
 if __name__ == '__main__':
     # Send a test command to RPi device rpi1
-    broadcast_command('{"cmd":"camera_stop"}')
+    broadcast_command('{"cmd":"all_stop"}')
     print("Command sent to all")
