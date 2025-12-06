@@ -11,26 +11,20 @@ def execute_action(command: dict):
 
     Args:
         command (dict): JSON parsed command payload, e.g.,
+            {"cmd": "all_start"}
             {"cmd": "gpio_write", "pin": 17, "value": 1}
     """
     motionController = RebocapController()
     cmd_type = command.get("cmd")
 
-    if cmd_type == "gpio_write":
-        pin = command.get("pin")
-        value = command.get("value")
-        print(f"[Device Actions] GPIO write: pin={pin}, value={value}")
-        # TODO: implement actual GPIO control using RPi.GPIO or gpiozero
-
     elif cmd_type == "all_start":
         motionController.start()
         print("All Satrting")
-        # TODO: implement all devices start
 
     elif cmd_type == "all_stop":
         motionController.stop()
         motionController.close()
         print("All Stoping")
-        # TODO: implement all devices stop
+        
     else:
         print(f"[Device Actions] Unknown command: {command}")

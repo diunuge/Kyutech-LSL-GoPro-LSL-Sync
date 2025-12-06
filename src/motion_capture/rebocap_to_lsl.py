@@ -2,10 +2,11 @@ import time
 import threading
 from pylsl import StreamInfo, StreamOutlet
 from lib.rebocap_python_sdk_v2 import rebocap_ws_sdk
+from src.motion_capture.config import STRAM_NAME
 
 class RebocapLSLSender:
     def __init__(self,
-                 stream_name="RebocapPose",
+                 stream_name=STRAM_NAME,
                  coordinate_type=rebocap_ws_sdk.CoordinateType.UnityCoordinate,
                  use_global_rotation=True):
         # 24 joints, 4 values each (w,x,y,z) = 96 channels
