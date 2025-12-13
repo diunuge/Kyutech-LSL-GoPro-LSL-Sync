@@ -8,6 +8,44 @@ echo "======================================="
 echo " Raspberry Pi Clone Preparation Script "
 echo "======================================="
 
+# Require root
+if [ "$EUID" -ne 0 ]; then
+  echo "ERROR: Please run as root (use sudo)."
+  exit 1
+fi
+
+# Ask for device
+lsblk -o NAME,SIZE,MODEL
+echo ""
+read -rp "Enter the NEW SD card device (e.g. sda): " DEV
+
+if [ ! -b "/dev/$DEV" ]; then
+  echo "ERROR: /dev/$DEV does not exist."
+  exit 1
+fi
+
+# Safety check: refuse root filesystem
+ROOT_DEV=$(lsblk -no PKNAME "$(df / | tail -1 | awk '{print $1}')" 2>/dev/null)
+if [ "$DEV" = "$ROOT_DEV" ]; then
+  echo "ERROR: Refusing to modify the running system."
+  exit 1
+fi
+
+# Mount partitions
+echo "Mounting /dev/${DEV}..."
+mkdir -p "$MOUNT_POINT"
+
+mount "/dev/${DEV}2" "$MOUNT_POINT"
+mount "/dev/${DEV}1" "$MOUNT_POINT/boot"
+
+# Verify Raspberry Pi OS
+if [ ! -f "$MOUNT_POINT/etc/os-release" ]; then
+  echo "ERROR: This does not look like Raspberry Pi OS."
+  umount "$MOUNT_POINT/boot"
+  umount "$MOUNT_POINT"
+  exit 1
+fi
+
 # Check mount
 if [ ! -d "$MOUNT_POINT/etc" ]; then
     echo "ERROR: $MOUNT_POINT does not look like a mounted Raspberry Pi OS root filesystem."
@@ -37,6 +75,18 @@ sudo sed -i "s/^127.0.1.1.*/127.0.1.1\t$NEW_HOSTNAME/" \
 echo "Resetting machine-id..."
 sudo rm -f "$MOUNT_POINT/etc/machine-id"
 sudo rm -f "$MOUNT_POINT/var/lib/dbus/machine-id"
+
+# Show confirmation
+echo ""
+echo "✔ Verification:"
+cat "$MOUNT_POINT/etc/hostname"
+
+# Unmount cleanly
+echo ""
+echo "Unmounting SD card..."
+umount "$MOUNT_POINT/boot"
+umount "$MOUNT_POINT"
+sync
 
 # Remove SSH host keys (login credentials remain unchanged)
 echo "Removing SSH host keys..."
