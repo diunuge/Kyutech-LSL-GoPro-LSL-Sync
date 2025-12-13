@@ -17,7 +17,7 @@ def execute_action(command: dict):
     motionController = RebocapController()
     cmd_type = command.get("cmd")
 
-    elif cmd_type == "all_start":
+    if cmd_type == "all_start":
         motionController.start()
         print("All Satrting")
 

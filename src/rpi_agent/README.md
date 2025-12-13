@@ -21,6 +21,15 @@ sudo systemctl start mosquitto
 systemctl status mosquitto
 ```
 
+## install remote desktop (optional)
+
+```bash
+sudo apt install xrdp
+sudo systemctl status xrdp
+# sudo systemctl enable xrdp
+# sudo systemctl start xrdp
+```
+
 ## clone github project
 `git clone https://github.com/diunuge/Kyutech-LSL-GoPro-LSL-Sync.git`
 

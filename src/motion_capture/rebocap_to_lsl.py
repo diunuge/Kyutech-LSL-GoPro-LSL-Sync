@@ -111,9 +111,10 @@ class RebocapLSLSender:
         while self._running:
             msg = self.sdk.get_last_msg()
             if msg is None:
-                # print("no msg")
+                print("no msg")
+
                 # No new frame yet (e.g., before calibration / idle)
-                time.sleep(0.005)
+                time.sleep(1)
                 continue
                     
             tran, pose24, static_index, ts = msg
