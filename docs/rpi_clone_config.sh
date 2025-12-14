@@ -71,10 +71,21 @@ echo "$NEW_HOSTNAME" | sudo tee "$MOUNT_POINT/etc/hostname" > /dev/null
 sudo sed -i "s/^127.0.1.1.*/127.0.1.1\t$NEW_HOSTNAME/" \
     "$MOUNT_POINT/etc/hosts"
 
+# Set hostname persistence in cloud-init (if present)
+if [ -f "$MOUNT_POINT/etc/cloud/cloud.cfg" ]; then
+    echo "Updating cloud-init configuration..."
+    sudo sed -i "s/^\(preserve_hostname:\).*/\1 true/" \
+        "$MOUNT_POINT/etc/cloud/cloud.cfg"
+fi
+
 # Reset machine-id (required for unique network identity)
 echo "Resetting machine-id..."
 sudo rm -f "$MOUNT_POINT/etc/machine-id"
 sudo rm -f "$MOUNT_POINT/var/lib/dbus/machine-id"
+
+# 2) Create an empty file so systemd knows to initialize
+sudo touch "$MOUNT_POINT/etc/machine-id"
+sudo chmod 0444 "$MOUNT_POINT/etc/machine-id"
 
 # Show confirmation
 echo ""
