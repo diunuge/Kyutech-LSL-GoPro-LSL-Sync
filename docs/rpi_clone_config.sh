@@ -76,6 +76,14 @@ if [ -f "$MOUNT_POINT/etc/cloud/cloud.cfg" ]; then
     echo "Updating cloud-init configuration..."
     sudo sed -i "s/^\(preserve_hostname:\).*/\1 true/" \
         "$MOUNT_POINT/etc/cloud/cloud.cfg"
+
+    # Ensure manage_etc_hosts: false is present (append if missing)
+    grep -q '^manage_etc_hosts:' "$MOUNT_POINT/etc/cloud/cloud.cfg" || \
+    echo 'manage_etc_hosts: false' | sudo tee -a "$MOUNT_POINT/etc/cloud/cloud.cfg" >/dev/null
+
+    # If it exists already but as true, flip it:
+    sudo sed -i 's/^\(manage_etc_hosts:\).*/\1 false/' \
+        "$MOUNT_POINT/etc/cloud/cloud.cfg"
 fi
 
 # Reset machine-id (required for unique network identity)
