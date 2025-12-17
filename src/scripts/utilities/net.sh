@@ -2,10 +2,10 @@
 # Raspberry Pi 4 / 5 – NetworkManager
 #
 # USAGE:
-#   sudo ./net_ip.sh auto eth0
-#   sudo ./net_ip.sh static eth0 192.168.1.50 24 192.168.1.1 8.8.8.8
-#   sudo ./net_ip.sh auto wlan0 
-#   sudo ./net_ip.sh static wlan0 192.168.1.30 24 192.168.1.1 1.1.1.1
+#   sudo bash ./net_ip.sh auto eth0
+#   sudo bash ./net_ip.sh static eth0 192.168.10.104 24 192.168.10.255 192.168.10.1
+#   sudo bash ./net_ip.sh auto wlan0 
+#   sudo bash ./net_ip.sh static wlan0 192.168.1.30 24 192.168.1.1 1.1.1.1
 
 MODE="$1"
 IFACE="$2"
