@@ -32,6 +32,8 @@ class RebocapLSLSender:
         self._thread = None
         self._lock = threading.Lock()
         self._latest_sample = None  # last [96] float list
+        self._last_ts = None          # last timestamp float
+        self._target_dt = 1.0 / 100.0
 
         # Register callbacks
         self.sdk.set_pose_msg_callback(self._pose_msg_callback)
@@ -120,15 +122,24 @@ class RebocapLSLSender:
             tran, pose24, static_index, ts = msg
             # print(msg)
             # print("\n\n")
+
+            # skip duplicate frames
+            if ts == self._last_ts:
+                time.sleep(self._target_dt)
+                continue
+
+            self._last_ts = ts
+
             # Convert to flat quaternion array if callback hasn't done it yet
             flat = []
             for i in range(self.num_joints):
                 qw, qx, qy, qz = pose24[i]
                 flat.extend([qw, qx, qy, qz])
 
+            # print(flat)
             # Push to LSL
             self.outlet.push_sample(flat)
 
             # Optional tiny sleep to avoid busy-wait
             # (Rebocap runs around 60 Hz, so this can stay very small)
-            time.sleep(0.0)
+            time.sleep(self._target_dt)
