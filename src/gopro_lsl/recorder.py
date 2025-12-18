@@ -4,12 +4,13 @@ Handles starting/stopping GoPro recordings and sending LSL markers.
 """
 
 import time
-from src.gopro_lsl.gopro_control import start_recording, stop_recording
+from src.gopro_lsl.gopro_control import GoProCamera
 from src.gopro_lsl.lsl_marker_stream import MarkerSender
 from src.gopro_lsl.config import MARKER_START, MARKER_STOP
 
 # Global marker sender instance
 marker_sender = MarkerSender()
+gopro = GoProCamera(name="default")  # Adjust as needed
 recording_active = False
 
 
@@ -23,7 +24,7 @@ def start_record_session():
     print("[Recorder] Starting GoPro + LSL session...")
 
     
-    status = start_recording() # Start GoPro recording
+    status = gopro.start_recording() # Start GoPro recording
     if status:
         marker_sender.send_marker(MARKER_START) # Send START marker
         marker_sender.start_heartbeat() # Start LSL heartbeat in background
@@ -42,7 +43,7 @@ def stop_record_session():
     print("[Recorder] Stopping GoPro + LSL session...")
     
     marker_sender.send_marker(MARKER_STOP) # Push STOP marker
-    stop_recording() # Stop GoPro recording
+    gopro.stop_recording() # Stop GoPro recording
     marker_sender.stop_heartbeat() # Push LSL heartbeat
 
     recording_active = False
@@ -58,13 +59,12 @@ def record_session(duration_sec: int, marker_start: str = "START", marker_stop: 
     """
     print("Starting recording session...")
     marker_sender.send_marker(marker_start)   # Push start marker
-    start_recording()
+    gopro.start_recording()
     try:
         time.sleep(duration_sec)
     except KeyboardInterrupt:
         print("Recording interrupted!")
-    stop_recording()
+    gopro.stop_recording()
     marker_sender.send_marker(marker_stop)   # Push end marker
     print("Recording session completed")
-
-
+    
