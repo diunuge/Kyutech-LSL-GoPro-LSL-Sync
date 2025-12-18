@@ -4,7 +4,7 @@ Asynchronous logger developed for faster and thread safe logging
 
 import threading
 import queue
-import datetime
+from datetime import datetime
 from src.log.config import DEFAULT_FILE
 
 class AsyncLogger:
