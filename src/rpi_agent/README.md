@@ -57,7 +57,7 @@ pip install paho-mqtt
 lib/liblsl.so LSL/Program/venv/lib/python3.13/site-packages/pylsl/lib/
 - set MQTT broker ip address, device id, ...etc in config.py
 - run start_agent_with_heartbeat.py script from main folder
-`python -m src.scripts.start_agent_with_heartbeat`
+`python -m src.scripts.start_rpi_agent_with_heartbeat`
 
 ## deactivate when done
 `deavtivate`
