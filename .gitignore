@@ -142,6 +142,9 @@ celerybeat.pid
 .venv
 env/
 venv/
+
+# Control GUI local settings (machine-specific interpreter path)
+.gui_config.json
 ENV/
 env.bak/
 venv.bak/

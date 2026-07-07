@@ -45,3 +45,6 @@ This folder contains the MQTT commander agent that publishes MQTT commands to co
     `python -m src.scripts.send_mqtt_broadcast_start`
 - Stop all
     `python -m src.scripts.send_mqtt_broadcast_stop`
+
+## Debug communication
+- Use `mosquitto_sub -v -t "rpi/#" within mosquitto installation folder

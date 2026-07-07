@@ -37,6 +37,11 @@ This system is designed for experiments, and multi-device synchronization setups
 <!-- - Optional heartbeat system  
 - Modular device action system -->
 
+### 🖥️ Control GUI
+- Desktop control panel with a tab per script (MQTT control, motion agent, GoPro/RPi, Rebocap test)
+- Start/stop + live console output per tab, picks which Python environment to run with
+- Run with `python -m src.scripts.start_gui` — see [src/control_gui/README.md](src/control_gui/README.md)
+
 ---
 
 ## 📦 Repository Structure Overview
