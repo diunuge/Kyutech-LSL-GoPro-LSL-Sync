@@ -35,4 +35,6 @@ DEFAULT_TIMEOUT = 5.0
 # Default poll interval for status checking (seconds)
 DEFAULT_POLL_INTERVAL = 0.2
 
-GOPRO_SERIAL = "794"  # TODO
+GOPRO_SERIAL = "195"  # serial = xyz s.t. ip="172.2{x}.1{yz}.51"   # e.g. serial ...794 -> 172.27.194.51
+
+GOPRO_STRAM_NAME = ""

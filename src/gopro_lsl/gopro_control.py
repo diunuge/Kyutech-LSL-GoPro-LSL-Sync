@@ -16,17 +16,17 @@ import argparse
 from pylsl import StreamInfo, StreamOutlet
 
 # =====================================
-# ここで複数カメラを設定
-# name: 自分がわかりやすいラベル
-# serial_last3: カメラのシリアル番号の下3桁
+# Configure multiple cameras here
+# name: a label that's easy for you to identify
+# serial_last3: last 3 digits of the camera's serial number
 # =====================================
 # CAMERAS = [
 #     {"name": "big1", "serial_last3": "794"},
-#     # 必要に応じて追加
+#     # add more as needed
 # ]
 
 # =====================================
-# GoPro制御クラス
+# GoPro control class
 # =====================================
 class GoProCamera:
     def __init__(self, name: str, serial_last3: str = GOPRO_SERIAL):
@@ -44,10 +44,10 @@ class GoProCamera:
 
     def enable_wired_usb_control(self):
         """
-        有線USB制御を有効化
+        Enable wired USB control
         GET /gopro/camera/control/wired_usb?p=1
 
-        一部ファームでは 404 の可能性があるので、その場合は警告だけ出して続行。
+        Some firmware versions may return 404; if so, just log a warning and continue.
         """
         url = f"{self.base_url}/gopro/camera/control/wired_usb"
         try:
@@ -56,7 +56,7 @@ class GoProCamera:
             print(f"[{self.name}] ✔ wired USB control enabled")
         except requests.exceptions.HTTPError as e:
             if e.response is not None and e.response.status_code == 404:
-                print(f"[{self.name}] ⚠ wired_usb endpoint 404: このファームでは不要/未対応なのでスキップ")
+                print(f"[{self.name}] ⚠ wired_usb endpoint 404: not required/unsupported on this firmware, skipping")
             else:
                 print(f"[{self.name}] ✖ HTTPError in enable_wired_usb_control: {e}")
         except requests.exceptions.RequestException as e:
@@ -64,7 +64,7 @@ class GoProCamera:
 
     def keep_alive(self):
         """
-        スリープ防止用の keep-alive
+        Keep-alive to prevent the camera from sleeping
         GET /gopro/camera/keep_alive
         """
         url = f"{self.base_url}/gopro/camera/keep_alive"
@@ -109,7 +109,7 @@ class GoProCamera:
 
     def shutter(self, mode: str, timeout=DEFAULT_TIMEOUT, poll_interval=DEFAULT_POLL_INTERVAL):
         """
-        録画開始/停止
+        Start/stop recording
         GET /gopro/camera/shutter/start or /stop
         mode: "start" or "stop"
         """
